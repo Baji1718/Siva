@@ -14,15 +14,14 @@
       background-position: center center;
       min-height: 100vh;
       color: white;
-      padding-bottom: 100px; /* Make room for bottom fixed elements */
-            position: sticky;
-
+      padding-bottom: 70px; /* Make room for fixed bottom bar */
     }
-.table > tbody > tr > td{
-  padding-top: 0.15rem;
-  padding-bottom: 0.15rem;
-  font-size: 0.9rem;
-}
+
+    .table > tbody > tr > td {
+      padding-top: 0.15rem;
+      padding-bottom: 0.15rem;
+      font-size: 0.9rem;
+    }
 
     #loader {
       position: fixed;
@@ -84,23 +83,25 @@
       margin: 10px auto;
     }
 
-    .sticky-footer {
+    .fixed-bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.85);
-      padding: 10px 0;
+      padding: 8px 16px;
       z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .sticky-footer .btn {
-      display: block;
-      margin: 0 auto;
+    .fixed-bottom-bar .pagination {
+      margin: 0;
     }
 
-    .pagination {
-      margin: 10px 0 0 0;
+    .fixed-bottom-bar .btn {
+      margin: 0;
     }
 
     h2 {
@@ -118,6 +119,7 @@
 </div>
 
 <div class="container mt-5">
+  <h2 class="mb-4 text-center">Item List</h2>
 
   <div class="row justify-content-center mb-3">
     <div class="col-md-4">
@@ -145,15 +147,13 @@
     </table>
   </div>
 
-  <!-- Pagination -->
-  <nav>
-    <ul class="pagination justify-content-center" id="pagination"></ul>
-  </nav>
-</div>
-
-<!-- Sticky Footer Save Button -->
-<div class="sticky-footer">
-  <button id="saveOrders" class="btn btn-primary">Save Selected Orders</button>
+  <!-- Fixed Bottom Bar with Save and Pagination -->
+  <div class="fixed-bottom-bar">
+    <button id="saveOrders" class="btn btn-primary btn-sm">Save Selected Orders</button>
+    <nav>
+      <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
+    </nav>
+  </div>
 </div>
 
 <script>
@@ -167,7 +167,7 @@
 
     let materials = [];
     let currentPage = 1;
-    const rowsPerPage = 10; // Reduced page size
+    const rowsPerPage = 10; // Page size 10 records per page
 
     fetch("https://stocknest-w3r4.onrender.com/api/materials")
       .then(res => res.json())
