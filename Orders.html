@@ -16,6 +16,12 @@
       color: white;
       padding-bottom: 100px; /* Make room for bottom fixed elements */
     }
+.table > tbody > tr > td,
+.table > thead > tr > th {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
 
     #loader {
       position: fixed;
@@ -161,7 +167,7 @@
 
     let materials = [];
     let currentPage = 1;
-    const rowsPerPage = 5; // Reduced page size
+    const rowsPerPage = 10; // Reduced page size
 
     fetch("https://stocknest-w3r4.onrender.com/api/materials")
       .then(res => res.json())
