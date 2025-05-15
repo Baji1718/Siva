@@ -14,6 +14,7 @@
       background-position: center center;
       min-height: 100vh;
       color: white;
+      padding-bottom: 100px; /* Make room for bottom fixed elements */
     }
 
     #loader {
@@ -34,6 +35,12 @@
       height: 3rem;
     }
 
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
     .table-bordered, .table-bordered th, .table-bordered td {
       border: 1px solid white !important;
     }
@@ -48,6 +55,9 @@
 
     thead.table-dark {
       background-color: rgba(0, 0, 0, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     td, th {
@@ -62,18 +72,32 @@
       color: #ccc;
     }
 
-    .btn-save {
+    #orderName, #searchInput {
+      max-width: 300px;
+      margin: 10px auto;
+    }
+
+    .sticky-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .sticky-footer .btn {
       display: block;
-      margin: 20px auto;
+      margin: 0 auto;
+    }
+
+    .pagination {
+      margin: 10px 0 0 0;
     }
 
     h2 {
       text-shadow: 1px 1px 2px black;
-    }
-
-    #orderName {
-      max-width: 300px;
-      margin: 10px auto;
     }
   </style>
 </head>
@@ -89,9 +113,8 @@
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Item List</h2>
 
-  <!-- Search and Order Name -->
-  <div class="row mb-3 text-center">
-    <div class="col-md-4 offset-md-2">
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-4">
       <input type="text" id="searchInput" class="form-control" placeholder="Search items...">
     </div>
     <div class="col-md-4">
@@ -99,29 +122,32 @@
     </div>
   </div>
 
-  <!-- Table -->
-  <table class="table table-bordered table-striped" id="itemTable">
-    <thead class="table-dark">
-      <tr>
-        <th><input type="checkbox" id="selectAll"></th>
-        <th>Material Name</th>
-        <th>Description</th>
-        <th>UOM</th>
-        <th>Quantity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Items go here -->
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table class="table table-bordered table-striped" id="itemTable">
+      <thead class="table-dark">
+        <tr>
+          <th><input type="checkbox" id="selectAll"></th>
+          <th>Material Name</th>
+          <th>Description</th>
+          <th>UOM</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Items go here -->
+      </tbody>
+    </table>
+  </div>
 
   <!-- Pagination -->
   <nav>
     <ul class="pagination justify-content-center" id="pagination"></ul>
   </nav>
+</div>
 
-  <!-- Save Button -->
-  <button id="saveOrders" class="btn btn-save btn-primary">Save Selected Orders</button>
+<!-- Sticky Footer Save Button -->
+<div class="sticky-footer">
+  <button id="saveOrders" class="btn btn-primary">Save Selected Orders</button>
 </div>
 
 <script>
@@ -135,7 +161,7 @@
 
     let materials = [];
     let currentPage = 1;
-    const rowsPerPage = 10;
+    const rowsPerPage = 5; // Reduced page size
 
     fetch("https://stocknest-w3r4.onrender.com/api/materials")
       .then(res => res.json())
@@ -238,7 +264,7 @@
 
         if (qty && parseInt(qty) > 0) {
           selected.push({
-            orderName: orderName,
+            orderName,
             item: item.MaterialName,
             uom: item.UOM,
             quantity: parseInt(qty)
@@ -247,13 +273,15 @@
       });
 
       if (selected.length === 0) {
-        alert("Please select at least one item with a quantity.");
+        alert("Select at least one item and enter a valid quantity.");
         return;
       }
 
       fetch("https://your-api-endpoint.com/save-orders", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ orders: selected })
       })
         .then(res => res.json())
@@ -265,11 +293,10 @@
             input.value = "";
           });
           orderNameInput.value = "";
-          selectAllCheckbox.checked = false;
         })
         .catch(err => {
           console.error("Save error:", err);
-          alert("Failed to save orders.");
+          alert("Error saving orders.");
         });
     });
   });
