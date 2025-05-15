@@ -78,6 +78,7 @@
       color: #0dcaf0;
       cursor: pointer;
       text-decoration: underline;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -186,7 +187,7 @@
       })
       .catch(error => {
         console.error("Error fetching data:", error);
-        tableBody.innerHTML = `<tr><td class="text-danger text-center">Failed to load data</td></tr>`;
+        tableBody.innerHTML = `<tr><td class="text-danger text-center" colspan="3">Failed to load data</td></tr>`;
       })
       .finally(() => {
         loader.style.display = "none";
@@ -200,113 +201,6 @@
 
     function renderTable() {
       const filtered = getFilteredMaterials();
-      const start = (currentPage - 1) * rowsPerPage;
-      const paginated = filtered.slice(start, start + rowsPerPage);
-
-      tableBody.innerHTML = "";
-      paginated.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>
-            <span class="material-link">
-              ${item.OrderName},
-              ${item.TotalItems},
-              ${item.TotalQUantity}
-              
-            </span>
-          </td>
-        `;
-        const link = row.querySelector('.material-link');
-        link.addEventListener("click", () => showMaterialModal(item));
-        tableBody.appendChild(row);
-      });
-
-      renderPagination(filtered.length);
-    }
-
-    function renderPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / rowsPerPage);
-      pagination.innerHTML = "";
-
-      for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement("li");
-        li.className = `page-item ${i === currentPage ? "active" : ""}`;
-        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        li.addEventListener("click", e => {
-          e.preventDefault();
-          currentPage = i;
-          renderTable();
-        });
-        pagination.appendChild(li);
-      }
-    }
-
-    function showMaterialModal(item) {
-      modalData = Array(20).fill(null).map((_, index) => ({
-        Description: `${item.Description} - Detail ${index + 1}`,
-        UOM: item.UOM
-      }));
-
-      modalCurrentPage = 1;
-      modalSearchInput.value = "";
-      renderModalTable();
-      materialModal.show();
-    }
-
-    function getFilteredModalData() {
-      const term = modalSearchInput.value.toLowerCase();
-      return modalData.filter(item =>
-        item.Description.toLowerCase().includes(term) ||
-        item.UOM.toLowerCase().includes(term)
-      );
-    }
-
-    function renderModalTable() {
-      const filtered = getFilteredModalData();
-      const start = (modalCurrentPage - 1) * modalRowsPerPage;
-      const paginated = filtered.slice(start, start + modalRowsPerPage);
-
-      modalTableBody.innerHTML = "";
-      paginated.forEach(row => {
-        modalTableBody.insertAdjacentHTML('beforeend', `
-          <tr>
-            <td>${row.Description}</td>
-            <td>${row.UOM}</td>
-          </tr>
-        `);
-      });
-
-      renderModalPagination(filtered.length);
-    }
-
-    function renderModalPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / modalRowsPerPage);
-      modalPagination.innerHTML = "";
-
-      for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement("li");
-        li.className = `page-item ${i === modalCurrentPage ? "active" : ""}`;
-        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        li.addEventListener("click", e => {
-          e.preventDefault();
-          modalCurrentPage = i;
-          renderModalTable();
-        });
-        modalPagination.appendChild(li);
-      }
-    }
-
-    modalSearchInput.addEventListener("input", () => {
-      modalCurrentPage = 1;
-      renderModalTable();
-    });
-
-    searchInput.addEventListener("input", () => {
-      currentPage = 1;
-      renderTable();
-    });
-  });
-</script>
-
-</body>
-</html>
+      const start = (currentPage - 1) * rowsPer
+::contentReference[oaicite:0]{index=0}
+ 
