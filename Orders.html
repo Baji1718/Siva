@@ -83,24 +83,18 @@
       margin: 10px auto;
     }
 
-    .fixed-bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 8px 16px;
-      z-index: 1000;
+    .pagination-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-top: 10px;
     }
 
-    .fixed-bottom-bar .pagination {
+    .pagination-container .pagination {
       margin: 0;
     }
 
-    .fixed-bottom-bar .btn {
+    .pagination-container .btn {
       margin: 0;
     }
 
@@ -147,8 +141,8 @@
     </table>
   </div>
 
-  <!-- Fixed Bottom Bar with Save and Pagination -->
-  <div class="fixed-bottom-bar">
+  <!-- Pagination and Save Button -->
+  <div class="pagination-container">
     <button id="saveOrders" class="btn btn-primary btn-sm">Save Selected Orders</button>
     <nav>
       <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
