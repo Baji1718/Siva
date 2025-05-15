@@ -62,12 +62,6 @@
       color: #ccc;
     }
 
-    #searchInput {
-      max-width: 300px;
-      margin: 0 auto 20px;
-      display: block;
-    }
-
     .btn-save {
       display: block;
       margin: 20px auto;
@@ -75,6 +69,11 @@
 
     h2 {
       text-shadow: 1px 1px 2px black;
+    }
+
+    #orderName {
+      max-width: 300px;
+      margin: 10px auto;
     }
   </style>
 </head>
@@ -90,13 +89,21 @@
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Item List</h2>
 
-  <!-- Search box -->
-  <input type="text" id="searchInput" class="form-control" placeholder="Search items...">
+  <!-- Search and Order Name -->
+  <div class="row mb-3 text-center">
+    <div class="col-md-4 offset-md-2">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search items...">
+    </div>
+    <div class="col-md-4">
+      <input type="text" id="orderName" class="form-control" placeholder="Enter Order Name">
+    </div>
+  </div>
 
+  <!-- Table -->
   <table class="table table-bordered table-striped" id="itemTable">
     <thead class="table-dark">
       <tr>
-        <th>Select</th>
+        <th><input type="checkbox" id="selectAll"></th>
         <th>Material Name</th>
         <th>Description</th>
         <th>UOM</th>
@@ -104,127 +111,165 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Data will be inserted here -->
+      <!-- Items go here -->
     </tbody>
   </table>
 
-<!-- Save Button -->
-<button id="saveOrders" class="btn btn-save" style="background-color: #339af0; color: white;">Save Selected Orders</button>
+  <!-- Pagination -->
+  <nav>
+    <ul class="pagination justify-content-center" id="pagination"></ul>
+  </nav>
+
+  <!-- Save Button -->
+  <button id="saveOrders" class="btn btn-save btn-primary">Save Selected Orders</button>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const loader = document.getElementById("loader");
     const searchInput = document.getElementById("searchInput");
+    const orderNameInput = document.getElementById("orderName");
     const itemTableBody = document.querySelector("#itemTable tbody");
-    let materials = [];
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const pagination = document.getElementById("pagination");
 
-    // Fetch data from API
+    let materials = [];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
     fetch("https://stocknest-w3r4.onrender.com/api/materials")
-      .then(response => {
-        if (!response.ok) throw new Error("Failed to fetch data");
-        return response.json();
-      })
+      .then(res => res.json())
       .then(data => {
         materials = data;
-        renderTable(materials);
+        renderTable();
       })
-      .catch(error => {
-        console.error("Error fetching data:", error);
+      .catch(err => {
+        console.error("Error loading data", err);
         itemTableBody.innerHTML = `<tr><td colspan="5" class="text-danger text-center">Failed to load data</td></tr>`;
       })
       .finally(() => {
         loader.style.display = "none";
       });
 
-    // Render the item table with checkboxes and quantity input
-    function renderTable(items) {
+    function getFilteredMaterials() {
+      const term = searchInput.value.toLowerCase();
+      return materials.filter(m =>
+        m.MaterialName.toLowerCase().includes(term) ||
+        m.Description.toLowerCase().includes(term)
+      );
+    }
+
+    function renderTable() {
+      const filtered = getFilteredMaterials();
+      const start = (currentPage - 1) * rowsPerPage;
+      const paginated = filtered.slice(start, start + rowsPerPage);
+
       itemTableBody.innerHTML = "";
-      items.forEach((item, index) => {
-        const row = `
+
+      paginated.forEach((item, i) => {
+        const globalIndex = materials.indexOf(item);
+        itemTableBody.innerHTML += `
           <tr>
-            <td class="text-center">
-              <input type="checkbox" class="form-check-input" data-index="${index}">
-            </td>
+            <td><input type="checkbox" class="form-check-input item-checkbox" data-index="${globalIndex}"></td>
             <td>${item.MaterialName}</td>
             <td>${item.Description}</td>
             <td>${item.UOM}</td>
-            <td>
-              <input type="number" class="form-control quantity-input" data-index="${index}" min="1" disabled />
-            </td>
+            <td><input type="number" class="form-control quantity-input" data-index="${globalIndex}" min="1" disabled></td>
           </tr>
         `;
-        itemTableBody.insertAdjacentHTML("beforeend", row);
       });
 
-      // Enable/disable quantity input based on checkbox
-      document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
-        checkbox.addEventListener("change", function () {
-          const index = this.getAttribute("data-index");
-          const qtyInput = document.querySelector(`.quantity-input[data-index="${index}"]`);
-          qtyInput.disabled = !this.checked;
-          if (!this.checked) qtyInput.value = "";
+      document.querySelectorAll(".item-checkbox").forEach(cb => {
+        cb.addEventListener("change", function () {
+          const index = this.dataset.index;
+          const input = document.querySelector(`.quantity-input[data-index="${index}"]`);
+          input.disabled = !this.checked;
+          if (!this.checked) input.value = "";
         });
       });
+
+      renderPagination(filtered.length);
     }
 
-    // Search filter
-    searchInput.addEventListener("input", function () {
-      const searchTerm = this.value.toLowerCase();
-      const filtered = materials.filter(item =>
-        item.MaterialName.toLowerCase().includes(searchTerm) ||
-        item.Description.toLowerCase().includes(searchTerm)
-      );
-      renderTable(filtered);
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+      pagination.innerHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = `page-item ${i === currentPage ? "active" : ""}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener("click", e => {
+          e.preventDefault();
+          currentPage = i;
+          renderTable();
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+    searchInput.addEventListener("input", () => {
+      currentPage = 1;
+      renderTable();
     });
 
-    // Handle Save Orders button
+    selectAllCheckbox.addEventListener("change", function () {
+      document.querySelectorAll(".item-checkbox").forEach(cb => {
+        cb.checked = this.checked;
+        const index = cb.dataset.index;
+        const input = document.querySelector(`.quantity-input[data-index="${index}"]`);
+        input.disabled = !this.checked;
+        if (!this.checked) input.value = "";
+      });
+    });
+
     document.getElementById("saveOrders").addEventListener("click", function () {
-      const selectedOrders = [];
+      const orderName = orderNameInput.value.trim();
+      if (!orderName) {
+        alert("Please enter an order name.");
+        return;
+      }
 
-      document.querySelectorAll("input[type='checkbox']:checked").forEach(checkbox => {
-        const index = checkbox.getAttribute("data-index");
-        const material = materials[index];
-        const quantity = document.querySelector(`.quantity-input[data-index="${index}"]`).value;
+      const selected = [];
 
-        if (quantity && parseInt(quantity) > 0) {
-          selectedOrders.push({
-            item: material.MaterialName,
-            uom: material.UOM,
-            quantity: parseInt(quantity)
+      document.querySelectorAll(".item-checkbox:checked").forEach(cb => {
+        const index = cb.dataset.index;
+        const item = materials[index];
+        const qty = document.querySelector(`.quantity-input[data-index="${index}"]`).value;
+
+        if (qty && parseInt(qty) > 0) {
+          selected.push({
+            orderName: orderName,
+            item: item.MaterialName,
+            uom: item.UOM,
+            quantity: parseInt(qty)
           });
         }
       });
 
-      if (selectedOrders.length === 0) {
-        alert("Please select at least one item and enter quantity.");
+      if (selected.length === 0) {
+        alert("Please select at least one item with a quantity.");
         return;
       }
 
-      // Post the data (replace with real backend URL)
       fetch("https://your-api-endpoint.com/save-orders", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ orders: selectedOrders })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orders: selected })
       })
-        .then(response => {
-          if (!response.ok) throw new Error("Failed to save orders");
-          return response.json();
-        })
-        .then(result => {
+        .then(res => res.json())
+        .then(() => {
           alert("Orders saved successfully!");
-          // Reset selections
-          document.querySelectorAll("input[type='checkbox']").forEach(cb => cb.checked = false);
+          document.querySelectorAll(".item-checkbox").forEach(cb => cb.checked = false);
           document.querySelectorAll(".quantity-input").forEach(input => {
             input.disabled = true;
             input.value = "";
           });
+          orderNameInput.value = "";
+          selectAllCheckbox.checked = false;
         })
-        .catch(error => {
-          console.error("Save error:", error);
-          alert("Error saving orders. Please try again.");
+        .catch(err => {
+          console.error("Save error:", err);
+          alert("Failed to save orders.");
         });
     });
   });
