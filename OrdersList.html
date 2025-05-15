@@ -195,9 +195,7 @@
     function getFilteredMaterials() {
       const term = searchInput.value.toLowerCase();
       return materials.filter(item =>
-        item.MaterialName.toLowerCase().includes(term) ||
-        item.Description.toLowerCase().includes(term)
-      );
+        item.OrderName.toLowerCase().includes(term));
     }
 
     function renderTable() {
