@@ -157,7 +157,6 @@
 
 <!-- Bootstrap JS & Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const loader = document.getElementById("loader");
@@ -172,10 +171,12 @@
     let materials = [];
     let currentPage = 1;
     const rowsPerPage = 10;
+
     let modalData = [];
     let modalCurrentPage = 1;
     const modalRowsPerPage = 5;
 
+    // Fetch data
     fetch("https://stocknest-w3r4.onrender.com/api/order-summary")
       .then(response => {
         if (!response.ok) throw new Error("Network response was not ok");
@@ -184,6 +185,7 @@
       .then(data => {
         materials = data;
         renderTable();
+        renderPagination();
       })
       .catch(error => {
         console.error("Error fetching data:", error);
@@ -193,14 +195,124 @@
         loader.style.display = "none";
       });
 
+    // Filtered list
     function getFilteredMaterials() {
       const term = searchInput.value.toLowerCase();
       return materials.filter(item =>
-        item.OrderName.toLowerCase().includes(term));
+        item.OrderName.toLowerCase().includes(term)
+      );
     }
 
+    // Render main table
     function renderTable() {
       const filtered = getFilteredMaterials();
-      const start = (currentPage - 1) * rowsPer
-::contentReference[oaicite:0]{index=0}
- 
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedItems = filtered.slice(start, end);
+
+      tableBody.innerHTML = "";
+      if (paginatedItems.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="3" class="text-center text-warning">No results found</td></tr>`;
+        return;
+      }
+
+      paginatedItems.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><span class="material-link" onclick='showMaterialModal(${JSON.stringify(item.Materials).replace(/'/g, "\\'")})'>${item.OrderName}</span></td>
+          <td>${item.TotalItems}</td>
+          <td>${item.TotalQuantity}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Render pagination for main table
+    function renderPagination() {
+      const totalPages = Math.ceil(getFilteredMaterials().length / rowsPerPage);
+      pagination.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = "page-item" + (i === currentPage ? " active" : "");
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener("click", () => {
+          currentPage = i;
+          renderTable();
+          renderPagination();
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+    // Modal functionality
+    function showMaterialModal(data) {
+      modalData = data;
+      modalCurrentPage = 1;
+      modalSearchInput.value = "";
+      renderModalTable();
+      renderModalPagination();
+      materialModal.show();
+    }
+
+    function getFilteredModalData() {
+      const term = modalSearchInput.value.toLowerCase();
+      return modalData.filter(item =>
+        item.Description.toLowerCase().includes(term)
+      );
+    }
+
+    function renderModalTable() {
+      const filtered = getFilteredModalData();
+      const start = (modalCurrentPage - 1) * modalRowsPerPage;
+      const end = start + modalRowsPerPage;
+      const pageData = filtered.slice(start, end);
+
+      modalTableBody.innerHTML = "";
+      if (pageData.length === 0) {
+        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-center text-warning">No results in modal</td></tr>`;
+        return;
+      }
+
+      pageData.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.Description}</td>
+          <td>${item.UOM}</td>
+        `;
+        modalTableBody.appendChild(row);
+      });
+    }
+
+    function renderModalPagination() {
+      const totalPages = Math.ceil(getFilteredModalData().length / modalRowsPerPage);
+      modalPagination.innerHTML = "";
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement("li");
+        li.className = "page-item" + (i === modalCurrentPage ? " active" : "");
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener("click", () => {
+          modalCurrentPage = i;
+          renderModalTable();
+          renderModalPagination();
+        });
+        modalPagination.appendChild(li);
+      }
+    }
+
+    // Search listeners
+    searchInput.addEventListener("input", () => {
+      currentPage = 1;
+      renderTable();
+      renderPagination();
+    });
+
+    modalSearchInput.addEventListener("input", () => {
+      modalCurrentPage = 1;
+      renderModalTable();
+      renderModalPagination();
+    });
+  });
+</script>
+
