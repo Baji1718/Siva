@@ -122,24 +122,27 @@
   </div>
 </div>
 
-<!-- Material Details Modal -->
+<!-- Modal -->
 <div class="modal fade" id="materialModal" tabindex="-1" aria-labelledby="materialModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content text-dark">
       <div class="modal-header">
-        <h5 class="modal-title" id="materialModalLabel">Order Details</h5>
+        <h5 class="modal-title" id="materialModalLabel">Order Materials</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="text" id="modalSearchInput" class="form-control mb-3" placeholder="Search in modal...">
+        <div id="modalLoader" class="text-center my-3" style="display:none;">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <input type="text" id="modalSearchInput" class="form-control mb-3" placeholder="Search materials...">
         <div class="table-responsive">
           <table class="table table-bordered table-striped" id="modalTable">
             <thead class="table-dark">
               <tr>
-                <th>ItemName</th>
-                <th>Description</th>
-                <th>UOM</th>
-                <th>Qty</th>
+                <th>Material Name</th>
+                <th>Quantity</th>
               </tr>
             </thead>
             <tbody>
@@ -170,6 +173,7 @@
     const modalTableBody = document.querySelector("#modalTable tbody");
     const modalPagination = document.getElementById("modalPagination");
     const modalSearchInput = document.getElementById("modalSearchInput");
+    const modalLoader = document.getElementById("modalLoader");
 
     let orders = [];
     let currentPage = 1;
@@ -208,7 +212,7 @@
 
       tableBody.innerHTML = "";
       if (paginated.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3" class="text-center text-warning">No results found</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="3" class="text-warning text-center">No results found</td></tr>`;
         return;
       }
 
@@ -222,7 +226,6 @@
         tableBody.appendChild(row);
       });
 
-      // Attach event listeners
       document.querySelectorAll(".material-link").forEach(link => {
         link.addEventListener("click", (e) => {
           e.preventDefault();
@@ -250,14 +253,15 @@
     }
 
     function fetchModalData(orderName) {
-      modalTableBody.innerHTML = `<tr><td colspan="4" class="text-center">Loading...</td></tr>`;
+      modalTableBody.innerHTML = "";
       modalPagination.innerHTML = "";
+      modalLoader.style.display = "block";
       modalSearchInput.value = "";
 
       fetch("https://stocknest-w3r4.onrender.com/api/order-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderName: orderName })
+        body: JSON.stringify({ OrderName: orderName })
       })
         .then(res => res.json())
         .then(data => {
@@ -268,17 +272,18 @@
           materialModal.show();
         })
         .catch(err => {
-          modalTableBody.innerHTML = `<tr><td colspan="4" class="text-danger text-center">Failed to load details</td></tr>`;
+          modalTableBody.innerHTML = `<tr><td colspan="2" class="text-danger text-center">Failed to load materials</td></tr>`;
           console.error(err);
+        })
+        .finally(() => {
+          modalLoader.style.display = "none";
         });
     }
 
     function getFilteredModalData() {
       const term = modalSearchInput.value.toLowerCase();
       return modalData.filter(item =>
-        item.ItemName.toLowerCase().includes(term) ||
-        item.Description.toLowerCase().includes(term) ||
-        item.UOM.toLowerCase().includes(term)
+        item.MaterialName.toLowerCase().includes(term)
       );
     }
 
@@ -289,17 +294,15 @@
 
       modalTableBody.innerHTML = "";
       if (paginated.length === 0) {
-        modalTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-warning">No results found</td></tr>`;
+        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-warning text-center">No materials found</td></tr>`;
         return;
       }
 
       paginated.forEach(item => {
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${item.ItemName}</td>
-          <td>${item.Description}</td>
-          <td>${item.UOM}</td>
-          <td>${item.Qty}</td>
+          <td>${item.MaterialName}</td>
+          <td>${item.Quantity}</td>
         `;
         modalTableBody.appendChild(row);
       });
@@ -322,16 +325,16 @@
       }
     }
 
-    modalSearchInput.addEventListener("input", () => {
-      modalCurrentPage = 1;
-      renderModalTable();
-      renderModalPagination();
-    });
-
     searchInput.addEventListener("input", () => {
       currentPage = 1;
       renderTable();
       renderPagination();
+    });
+
+    modalSearchInput.addEventListener("input", () => {
+      modalCurrentPage = 1;
+      renderModalTable();
+      renderModalPagination();
     });
   });
 </script>
