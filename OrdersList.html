@@ -17,17 +17,18 @@
       padding-bottom: 70px;
     }
 
+    /* Page Loader */
     #loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
+      background-color: rgba(0, 0, 0, 0.5); /* Optional: darkens background */
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      z-index: 9999; /* Make sure it's above everything else */
     }
 
     .spinner-border {
@@ -35,59 +36,75 @@
       height: 3rem;
     }
 
-   .table-container {
-  max-height: 500px;
-  overflow-y: auto;
-  margin-bottom: 13px;
-  display: flex;
-  justify-content: center; /* Center table horizontally */
-}
+    .table-container {
+      max-height: 500px;
+      overflow-y: auto;
+      margin-bottom: 13px;
+      display: flex;
+      justify-content: center;
+    }
 
-table {
-  width: 60%;
-  max-width: 700px;
-}
+    table {
+      width: 60%;
+      max-width: 700px;
+      border: 1px solid white;
+    }
+     #itemTable{
+	 width: 80%; /* Set the width of the table inside the modal */
+      font-size: 12px;
+      border: 1px solid white; /* Set black border for modal table */
+      border-collapse: collapse; /* Ensure proper border rendering */
+	 }
+	     #itemTable th, #itemTable td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 4px 6px;
+      border: 1px solid white; /* Apply black border to cells */
+    }
+    #modalTable {
+      width: 80%; /* Set the width of the table inside the modal */
+      font-size: 12px;
+      border: 1px solid black; /* Set black border for modal table */
+      border-collapse: collapse; /* Ensure proper border rendering */
+    }
 
-.table-bordered, .table-bordered th, .table-bordered td {
-  border: 1px solid white !important;
-}
+    #modalTable th, #modalTable td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 4px 6px;
+      border: 1px solid black; /* Apply black border to cells */
+    }
 
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.1);
-}
+    .modal-content {
+      border: 2px solid black; /* Apply black border to the modal container */
+    }
 
-.table-striped tbody tr:nth-of-type(even) {
-  background-color: rgba(255, 255, 255, 0.05);
-}
+    .modal-header, .modal-footer {
+      border-bottom: 1px solid black; /* Apply black border to modal header and footer */
+    }
 
-thead.table-dark {
-  background-color: rgba(0, 0, 0, 0.8);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
 
-td, th {
-  color: white;
-  text-align: center;
-  vertical-align: middle;
-  padding: 5px 8px;
-  font-size: 12px;
-}
+    .table-striped tbody tr:nth-of-type(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
 
-/* Modal table */
-#modalTable th,
-#modalTable td {
-  text-align: center;
-  vertical-align: middle;
-  font-size: 12px;
-  padding: 5px 8px;
-}
+    thead.table-dark {
+      background-color: rgba(0, 0, 0, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
 
-#modalTable {
-  width: 100%;
-}
-
+    td, th {
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+      padding: 5px 8px;
+      font-size: 12px;
+    }
 
     h2 {
       text-shadow: 1px 1px 2px black;
@@ -106,22 +123,25 @@ td, th {
       font-weight: bold;
     }
 
-    /* Modal adjustments */
+    /* Modal adjustments: Increase height and make table scrollable */
+    .modal-dialog {
+      margin: 1rem auto; /* Align modal towards the top */
+    }
+
+    .modal-content {
+      height: 80vh; /* Set the height of modal content */
+    }
+
     .modal-body {
-      max-height: 400px;
+      height: calc(100% - 60px); /* Adjust for the header and footer space */
+      overflow-y: auto; /* Allow scroll within modal content */
+    }
+
+    .modal-table-wrapper {
+      max-height: 400px;  /* Adjust this to set the max height for the table */
       overflow-y: auto;
-    }
-
-    #modalTable th, #modalTable td {
-      text-align: center;
-      vertical-align: middle;
-      font-size: 14px;
-      padding: 6px;
-    }
-
-    #modalTable {
-      font-size: 14px;
-      width: 100%;
+      display: flex;
+      justify-content: center; /* Center the table horizontally */
     }
   </style>
 </head>
@@ -165,21 +185,16 @@ td, th {
 
 <!-- Modal -->
 <div class="modal fade" id="materialModal" tabindex="-1" aria-labelledby="materialModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content text-dark">
       <div class="modal-header">
         <h5 class="modal-title" id="materialModalLabel">Order Materials</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div id="modalLoader" class="text-center my-3" style="display:none;">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
         <input type="text" id="modalSearchInput" class="form-control mb-3" placeholder="Search materials...">
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped" id="modalTable">
+        <div class="modal-table-wrapper">
+          <table class="table table-striped" id="modalTable">
             <thead class="table-dark">
               <tr>
                 <th>Material Name</th>
@@ -195,7 +210,6 @@ td, th {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const loader = document.getElementById("loader");
@@ -206,14 +220,12 @@ td, th {
     const materialModal = new bootstrap.Modal(document.getElementById("materialModal"));
     const modalTableBody = document.querySelector("#modalTable tbody");
     const modalSearchInput = document.getElementById("modalSearchInput");
-    const modalLoader = document.getElementById("modalLoader");
 
     let orders = [];
     let currentPage = 1;
     const rowsPerPage = 10;
     let modalData = [];
 
-    // Fetch orders
     fetch("https://stocknest-w3r4.onrender.com/api/order-summary")
       .then(res => res.json())
       .then(data => {
@@ -226,7 +238,7 @@ td, th {
         console.error(err);
       })
       .finally(() => {
-        loader.style.display = "none";
+        loader.style.display = "none"; // Hide the page loader after data fetch
       });
 
     function getFilteredOrders() {
@@ -247,7 +259,7 @@ td, th {
 
       paginated.forEach(item => {
         const row = document.createElement("tr");
-        row.innerHTML = `
+        row.innerHTML = `  
           <td><a href="#" class="material-link" data-order="${item.OrderName}">${item.OrderName}</a></td>
           <td>${item.TotalItems}</td>
           <td>${item.TotalQuantity}</td>
@@ -283,7 +295,6 @@ td, th {
 
     function fetchModalData(orderName) {
       modalTableBody.innerHTML = "";
-      modalLoader.style.display = "block";
       modalSearchInput.value = "";
 
       fetch("https://stocknest-w3r4.onrender.com/api/order-details", {
@@ -300,9 +311,6 @@ td, th {
         .catch(err => {
           modalTableBody.innerHTML = `<tr><td colspan="2" class="text-danger text-center">Failed to load materials</td></tr>`;
           console.error(err);
-        })
-        .finally(() => {
-          modalLoader.style.display = "none";
         });
     }
 
@@ -315,7 +323,7 @@ td, th {
 
       modalData.forEach(item => {
         const row = document.createElement("tr");
-        row.innerHTML = `
+        row.innerHTML = `  
           <td>${item.MaterialName}</td>
           <td>${item.Quantity}</td>
         `;
@@ -330,7 +338,25 @@ td, th {
     });
 
     modalSearchInput.addEventListener("input", () => {
-      renderModalTable();
+      const term = modalSearchInput.value.toLowerCase();
+      const filtered = modalData.filter(item =>
+        item.MaterialName.toLowerCase().includes(term)
+      );
+
+      modalTableBody.innerHTML = "";
+      if (filtered.length === 0) {
+        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-warning text-center">No materials found</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `  
+          <td>${item.MaterialName}</td>
+          <td>${item.Quantity}</td>
+        `;
+        modalTableBody.appendChild(row);
+      });
     });
   });
 </script>
