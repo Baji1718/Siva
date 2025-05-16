@@ -257,7 +257,7 @@
       fetch("https://stocknest-w3r4.onrender.com/api/order-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ OrderName: orderName })
+        body: JSON.stringify({ orderName: orderName })
       })
         .then(res => res.json())
         .then(data => {
