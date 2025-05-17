@@ -312,7 +312,7 @@
       modalTableBody.innerHTML = "";
       modalSearchInput.value = "";
 
-      fetch("https://stocknest-w3r4.onrender.com/api/order-details", {
+      fetch("https://stocknest-w3r4.onrender.com/api/delivery-order-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ DeliveryOrderName: DeliveryOrderName })
