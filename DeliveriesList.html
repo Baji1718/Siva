@@ -259,7 +259,7 @@
 
     function getFilteredOrders() {
       const term = searchInput.value.toLowerCase();
-      return orders.filter(item => item.OrderName.toLowerCase().includes(term));
+      return orders.filter(item => item.DeliveryOrderName.toLowerCase().includes(term));
     }
 
     function renderTable() {
@@ -276,7 +276,7 @@
       paginated.forEach(item => {
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td><a href="#" class="material-link" data-order="${item.OrderName}">${item.OrderName}</a></td>
+          <td><a href="#" class="material-link" data-order="${item.DeliveryOrderName}">${item.DeliveryOrderName}</a></td>
           <td>${item.TotalItems}</td>
           <td>${item.TotalQuantity}</td>
         `;
@@ -287,8 +287,8 @@
         link.addEventListener("click", e => {
           e.preventDefault();
           loader.style.display = "flex";
-          const orderName = link.getAttribute("data-order");
-          fetchModalData(orderName);
+          const DeliveryOrderName = link.getAttribute("data-order");
+          fetchModalData(DeliveryOrderName);
         });
       });
     }
@@ -308,14 +308,14 @@
         pagination.appendChild(li);
       }
     }
- function fetchModalData(orderName) {
+ function fetchModalData(DeliveryOrderName) {
       modalTableBody.innerHTML = "";
       modalSearchInput.value = "";
 
       fetch("https://stocknest-w3r4.onrender.com/api/order-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderName: orderName })
+        body: JSON.stringify({ DeliveryOrderName: DeliveryOrderName })
       })
         .then(res => res.json())
         .then(data => {
