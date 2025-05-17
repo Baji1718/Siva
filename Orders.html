@@ -192,6 +192,7 @@
     <button id="saveOrders" class="btn btn-primary btn-sm">Save Selected Orders</button>
   </div>
 </div>
+<!-- Keep your original HTML and CSS above this line unchanged -->
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -307,7 +308,7 @@
 
         if (qty && parseInt(qty) > 0) {
           selected.push({
-            orderName,
+            orderName: orderName,
             item: item.MaterialName,
             uom: item.UOM,
             quantity: parseInt(qty)
@@ -320,18 +321,36 @@
         return;
       }
 
-      console.log("Orders to save:", selected); // Simulated save
-
-      alert("Orders saved successfully!");
-      document.querySelectorAll(".item-checkbox").forEach(cb => cb.checked = false);
-      document.querySelectorAll(".quantity-input").forEach(input => {
-        input.disabled = true;
-        input.value = "";
+      // Send POST request to API
+      fetch("https://stocknest-w3r4.onrender.com/api/inward-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ items: selected })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to save order.");
+        return res.json();
+      })
+      .then(data => {
+        alert("Orders saved successfully!");
+        // Reset form
+        document.querySelectorAll(".item-checkbox").forEach(cb => cb.checked = false);
+        document.querySelectorAll(".quantity-input").forEach(input => {
+          input.disabled = true;
+          input.value = "";
+        });
+        orderNameInput.value = "";
+      })
+      .catch(err => {
+        console.error(err);
+        alert("An error occurred while saving the order.");
       });
-      orderNameInput.value = "";
     });
   });
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
