@@ -314,9 +314,8 @@
         if (qty && parseInt(qty) > 0) {
           selected.push({
             DeliveryOrderName,
-            item: item.MaterialName,
-            uom: item.UOM,
-            quantity: parseInt(qty)
+            MaterialName: item.MaterialName,
+            Quantity: parseInt(qty)
           });
         }
       });
