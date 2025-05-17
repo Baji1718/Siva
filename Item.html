@@ -8,156 +8,154 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    body {
-      background-color: #f8f9fa;
-      background-image: url('https://static.vecteezy.com/system/resources/previews/030/182/067/large_2x/ice-cream-in-cones-on-a-dark-background-ai-generated-free-photo.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      height: 100vh;
-      overflow: hidden;
-      color: white;
-      padding-left: 240px;
-    }
+  body {
+    background-color: #f8f9fa;
+    background-image: url('https://static.vecteezy.com/system/resources/previews/030/182/067/large_2x/ice-cream-in-cones-on-a-dark-background-ai-generated-free-photo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    padding-left: 240px;
+  }
 
-    .sidebar {
-      height: 100vh;
-      width: 240px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.85);
-      padding-top: 20px;
-      z-index: 1000;
-    }
+  .sidebar {
+    height: 100vh;
+    width: 240px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding-top: 20px;
+    z-index: 1000;
+  }
 
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 15px 20px;
-      text-decoration: none;
-      font-size: 16px;
-    }
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 16px;
+  }
 
-    .sidebar a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+  .sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 
-    .sidebar .logo {
-      width: 160px;
-      display: block;
-      margin: 0 auto 30px auto;
-    }
+  .sidebar .logo {
+    width: 160px;
+    display: block;
+    margin: 0 auto 30px auto;
+  }
 
-    h2 {
-      color: white;
-      text-shadow: 1px 1px 2px black;
-      text-align: center;
-    }
+  h2 {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    text-align: center;
+  }
 
-    .pagination-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 
-    .table-container {
-      max-height: 500px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: flex-end; /* Align table to the right */
-    }
+  .table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end; /* Align table to the right */
+  }
 
-    .table-container {
-      overflow-x: auto;
-      background-color: rgba(255, 255, 255, 0.95);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
+  .table-container {
+    overflow-x: auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
 
-    table {
-      width: 80%; /* Adjusted table width */
-      border-collapse: separate;
-      border-spacing: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-top: 20px;
-    }
+  table {
+    width: 100%; /* Full width for better responsiveness */
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px;
+  }
 
-    thead.table-dark {
-      background: linear-gradient(45deg, #6c757d, #495057); /* Updated color scheme */
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  thead.table-dark {
+    background: linear-gradient(45deg, #6c757d, #495057); /* Updated color scheme */
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 
-    th, td {
-      padding: 12px 20px; /* Increased padding for better spacing */
-      font-size: 14px;
-      border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-      text-align: center;
-      vertical-align: middle;
-      color: #333;
-    }
+  th, td {
+    padding: 12px 20px; /* Increased padding for better spacing */
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    color: #333;
+  }
 
-    tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
+  tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 
-    tbody tr:nth-of-type(odd) {
-      background-color: rgba(0, 123, 255, 0.1); /* Light blue */
-    }
+  tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue */
+  }
 
-    tbody tr:nth-of-type(even) {
-      background-color: rgba(0, 123, 255, 0.05); /* Darker blue */
-    }
+  tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 123, 255, 0.05); /* Darker blue */
+  }
 
-    tbody tr:hover {
-      background-color: rgba(0, 123, 255, 0.2); /* Hover effect */
-      cursor: pointer;
-    }
+  tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.2); /* Hover effect */
+    cursor: pointer;
+  }
 
-    .table-bordered, .table-bordered th, .table-bordered td {
-      border: 1px solid #dee2e6; /* Lighter gray border */
-    }
+  /* Add a light border to the row */
+  tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Lighter border */
+  }
 
-    .pagination-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 
-    .spinner-border {
-      width: 3rem;
-      height: 3rem;
-    }
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
 
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  #loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .search-wrapper {
-      display: flex;
-      justify-content: flex-end; /* Align search input to the right */
-      margin-bottom: 20px;
-    }
+  .search-wrapper {
+    display: flex;
+    justify-content: flex-end; /* Align search input to the right */
+    margin-bottom: 20px;
+  }
 
-    .form-control {
-      width: 200px; /* Decreased size of the search box */
-      font-size: 14px;
-    }
-  </style>
+  .form-control {
+    width: 200px; /* Decreased size of the search box */
+    font-size: 14px;
+  }
+</style>
+
 </head>
 <body>
 
@@ -165,8 +163,7 @@
 <div class="sidebar">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
   <a href="Item.html"><i class="fas fa-ice-cream"></i> Item Data</a>
-  <a href="Orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-  <a href="OrdersList.html"><i class="fas fa-shopping-cart"></i> Orders Lis</a>
+  <a href="OrdersList.html"><i class="fas fa-shopping-cart"></i> Orders</a>
   <a href="deliveries.html"><i class="fas fa-shipping-fast"></i> Deliveries</a>
   <a href="Inventory.html"><i class="fas fa-warehouse"></i> Inventory</a>
 </div>
@@ -189,12 +186,12 @@
 
   <!-- Table -->
   <div class="table-container">
-    <table class="table table-bordered table-striped" id="itemTable">
+    <table class="table" id="itemTable">
       <thead class="table-dark">
         <tr>
-          <th>Material Name</th>
-          <th>Description</th>
-          <th>UOM</th>
+          <th class="col-4">Material Name</th>
+          <th class="col-4">Description</th>
+          <th class="col-4">UOM</th>
         </tr>
       </thead>
       <tbody>
