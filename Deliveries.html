@@ -298,8 +298,8 @@
 
     // Save the selected orders by making an API call
     document.getElementById("saveOrders").addEventListener("click", function () {
-      const orderName = orderNameInput.value.trim();
-      if (!orderName) {
+      const DeliveryOrderName = orderNameInput.value.trim();
+      if (!DeliveryOrderName) {
         alert("Please enter an order name.");
         return;
       }
@@ -313,7 +313,7 @@
 
         if (qty && parseInt(qty) > 0) {
           selected.push({
-            orderName,
+            DeliveryOrderName,
             item: item.MaterialName,
             uom: item.UOM,
             quantity: parseInt(qty)
@@ -327,7 +327,7 @@
       }
 
       // Send the selected orders to the API
-      fetch("https://your-api-endpoint.com/save-orders", {
+      fetch("https://stocknest-w3r4.onrender.com/api/delivery-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
