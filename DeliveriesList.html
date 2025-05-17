@@ -7,15 +7,14 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    body {
-      background-color: #f8f9fa;
-      background-image: url('https://static.vecteezy.com/system/resources/previews/030/182/067/large_2x/ice-cream-in-cones-on-a-dark-background-ai-generated-free-photo.jpg');
+   body {
+      background-image: url('https://static.vecteezy.com/system/resources/previews/054/691/424/non_2x/colorful-ice-cream-in-a-bowl-with-mint-leaves-on-a-vibrant-background-for-a-refreshing-treat-free-photo.jpeg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
-      min-height: 100vh;
-      color: white;
-      padding-bottom: 70px;
+      background-position: center;
+      height: 100vh;
+      color: #d9eeb5;
+      overflow-y: auto;
     }
 
     .sidebar {
@@ -24,7 +23,9 @@
       left: 0;
       top: 0;
       width: 240px;
-      background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 60, 120, 0.3); /* semi-transparent blue */
+
+      <!-- background-color: #00000000	; -->
       padding-top: 20px;
       display: flex;
       flex-direction: column;
@@ -33,8 +34,9 @@
     }
 
     .sidebar img.logo {
-      width: 160px;
-      margin-bottom: 30px;
+      width: 240px;
+      margin-top: -25px;
+
     }
 
     .sidebar a {
@@ -46,6 +48,7 @@
       align-items: center;
       font-size: 1rem;
       transition: background 0.3s;
+      
     }
 
     .sidebar a i {
@@ -53,8 +56,10 @@
     }
 
     .sidebar a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: white;
+      color:black;
     }
+
 
     #loader {
       position: fixed;
