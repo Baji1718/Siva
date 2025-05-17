@@ -329,7 +329,7 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ items: selected })
+        body: JSON.stringify({ orders: selected })
       })
       .then(res => {
         if (!res.ok) throw new Error("Failed to save order.");
