@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Orders List</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #f8f9fa;
@@ -17,18 +18,55 @@
       padding-bottom: 70px;
     }
 
-    /* Page Loader */
+    .sidebar {
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 240px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .sidebar img.logo {
+      width: 160px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      width: 100%;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
     #loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5); /* Optional: darkens background */
+      background-color: rgba(0, 0, 0, 0.5);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 9999; /* Make sure it's above everything else */
+      z-index: 9999;
     }
 
     .spinner-border {
@@ -39,75 +77,44 @@
     .table-container {
       max-height: 500px;
       overflow-y: auto;
-      margin-bottom: 13px;
+      margin-bottom: 20px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
+      overflow-x: auto;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     table {
-      width: 60%;
-      max-width: 700px;
-      border: 1px solid white;
-    }
-     #itemTable{
-	 width: 80%; /* Set the width of the table inside the modal */
-      font-size: 12px;
-      border: 1px solid white; /* Set black border for modal table */
-      border-collapse: collapse; /* Ensure proper border rendering */
-	 }
-	     #itemTable th, #itemTable td {
-      text-align: center;
-      vertical-align: middle;
-      padding: 4px 6px;
-      border: 1px solid white; /* Apply black border to cells */
-    }
-    #modalTable {
-      width: 80%; /* Set the width of the table inside the modal */
-      font-size: 12px;
-      border: 1px solid black; /* Set black border for modal table */
-      border-collapse: collapse; /* Ensure proper border rendering */
-    }
-
-    #modalTable th, #modalTable td {
-      text-align: center;
-      vertical-align: middle;
-      padding: 4px 6px;
-      border: 1px solid black; /* Apply black border to cells */
-    }
-
-    .modal-content {
-      border: 2px solid black; /* Apply black border to the modal container */
-    }
-
-    .modal-header, .modal-footer {
-      border-bottom: 1px solid black; /* Apply black border to modal header and footer */
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .table-striped tbody tr:nth-of-type(even) {
-      background-color: rgba(255, 255, 255, 0.05);
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
     thead.table-dark {
-      background-color: rgba(0, 0, 0, 0.8);
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      background: linear-gradient(45deg, #6c757d, #495057);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    td, th {
-      color: white;
+    th, td {
+      padding: 12px 20px;
+      font-size: 14px;
       text-align: center;
       vertical-align: middle;
-      padding: 5px 8px;
-      font-size: 12px;
+      color: #333;
     }
 
-    h2 {
-      text-shadow: 1px 1px 2px black;
+    tbody tr:hover {
+      background-color: rgba(0, 123, 255, 0.2);
+      cursor: pointer;
+    }
+
+    table, th, td {
+      border: none;
     }
 
     .pagination-container {
@@ -123,40 +130,63 @@
       font-weight: bold;
     }
 
-    /* Modal adjustments: Increase height and make table scrollable */
     .modal-dialog {
-      margin: 1rem auto; /* Align modal towards the top */
+      margin: 1rem auto;
     }
 
     .modal-content {
-      height: 80vh; /* Set the height of modal content */
+      height: 80vh;
     }
 
     .modal-body {
-      height: calc(100% - 60px); /* Adjust for the header and footer space */
-      overflow-y: auto; /* Allow scroll within modal content */
+      height: calc(100% - 60px);
+      overflow-y: auto;
     }
 
     .modal-table-wrapper {
-      max-height: 400px;  /* Adjust this to set the max height for the table */
+      max-height: 400px;
       overflow-y: auto;
       display: flex;
-      justify-content: center; /* Center the table horizontally */
+      justify-content: center;
+    }
+
+    .main-content {
+      margin-left: 240px;
+      padding: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+
+      .sidebar {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Loader -->
+<div class="sidebar">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
+  <a href="Item.html"><i class="fas fa-ice-cream"></i> Item Data</a>
+  <a href="Orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+  <a href="OrdersList.html"><i class="fas fa-list"></i> Orders List</a>
+  <a href="deliveries.html"><i class="fas fa-shipping-fast"></i> Deliveries</a>
+  <a href="Inventory.html"><i class="fas fa-warehouse"></i> Inventory</a>
+  <a href="App.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+</div>
+
 <div id="loader">
   <div class="spinner-border text-light" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
 
-<div class="container mt-5">
+<div class="main-content">
   <h2 class="mb-4 text-center">Orders List</h2>
-
   <div class="row justify-content-center mb-3">
     <div class="col-md-4">
       <input type="text" id="searchInput" class="form-control" placeholder="Search orders...">
@@ -164,7 +194,7 @@
   </div>
 
   <div class="table-container">
-    <table class="table table-bordered table-striped" id="itemTable">
+    <table class="table table-bordered" id="itemTable">
       <thead class="table-dark">
         <tr>
           <th>Order Name</th>
@@ -226,21 +256,6 @@
     const rowsPerPage = 10;
     let modalData = [];
 
-    fetch("https://stocknest-w3r4.onrender.com/api/order-summary")
-      .then(res => res.json())
-      .then(data => {
-        orders = data;
-        renderTable();
-        renderPagination();
-      })
-      .catch(err => {
-        tableBody.innerHTML = `<tr><td colspan="3" class="text-danger text-center">Failed to load data</td></tr>`;
-        console.error(err);
-      })
-      .finally(() => {
-        loader.style.display = "none"; // Hide the page loader after data fetch
-      });
-
     function getFilteredOrders() {
       const term = searchInput.value.toLowerCase();
       return orders.filter(item => item.OrderName.toLowerCase().includes(term));
@@ -259,7 +274,7 @@
 
       paginated.forEach(item => {
         const row = document.createElement("tr");
-        row.innerHTML = `  
+        row.innerHTML = `
           <td><a href="#" class="material-link" data-order="${item.OrderName}">${item.OrderName}</a></td>
           <td>${item.TotalItems}</td>
           <td>${item.TotalQuantity}</td>
@@ -270,6 +285,7 @@
       document.querySelectorAll(".material-link").forEach(link => {
         link.addEventListener("click", e => {
           e.preventDefault();
+          loader.style.display = "flex";
           const orderName = link.getAttribute("data-order");
           fetchModalData(orderName);
         });
@@ -283,17 +299,15 @@
         const li = document.createElement("li");
         li.className = "page-item" + (i === currentPage ? " active" : "");
         li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        li.addEventListener("click", e => {
+        li.querySelector("a").addEventListener("click", function (e) {
           e.preventDefault();
           currentPage = i;
           renderTable();
-          renderPagination();
         });
         pagination.appendChild(li);
       }
     }
-
-    function fetchModalData(orderName) {
+ function fetchModalData(orderName) {
       modalTableBody.innerHTML = "";
       modalSearchInput.value = "";
 
@@ -307,9 +321,12 @@
           modalData = data;
           renderModalTable();
           materialModal.show();
+		        loader.style.display = "none"; // <-- Hide loader after modal is shown
         })
         .catch(err => {
           modalTableBody.innerHTML = `<tr><td colspan="2" class="text-danger text-center">Failed to load materials</td></tr>`;
+		        loader.style.display = "none"; // <-- Hide loader after modal is shown
+
           console.error(err);
         });
     }
@@ -317,49 +334,41 @@
     function renderModalTable() {
       modalTableBody.innerHTML = "";
       if (modalData.length === 0) {
-        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-warning text-center">No materials found</td></tr>`;
+        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-center">No materials found</td></tr>`;
         return;
       }
 
-      modalData.forEach(item => {
+      modalData.forEach(material => {
         const row = document.createElement("tr");
-        row.innerHTML = `  
-          <td>${item.MaterialName}</td>
-          <td>${item.Quantity}</td>
+        row.innerHTML = `
+          <td>${material.MaterialName}</td>
+          <td>${material.Quantity}</td>
         `;
         modalTableBody.appendChild(row);
       });
     }
+
+    fetch("https://stocknest-w3r4.onrender.com/api/order-summary")
+      .then(res => res.json())
+      .then(data => {
+        orders = data;
+        renderTable();
+        renderPagination();
+      })
+      .catch(err => {
+        tableBody.innerHTML = `<tr><td colspan="3" class="text-danger text-center">Failed to load data</td></tr>`;
+        console.error(err);
+      })
+      .finally(() => {
+        loader.style.display = "none";
+      });
 
     searchInput.addEventListener("input", () => {
       currentPage = 1;
       renderTable();
       renderPagination();
     });
-
-    modalSearchInput.addEventListener("input", () => {
-      const term = modalSearchInput.value.toLowerCase();
-      const filtered = modalData.filter(item =>
-        item.MaterialName.toLowerCase().includes(term)
-      );
-
-      modalTableBody.innerHTML = "";
-      if (filtered.length === 0) {
-        modalTableBody.innerHTML = `<tr><td colspan="2" class="text-warning text-center">No materials found</td></tr>`;
-        return;
-      }
-
-      filtered.forEach(item => {
-        const row = document.createElement("tr");
-        row.innerHTML = `  
-          <td>${item.MaterialName}</td>
-          <td>${item.Quantity}</td>
-        `;
-        modalTableBody.appendChild(row);
-      });
-    });
   });
 </script>
-
 </body>
 </html>
