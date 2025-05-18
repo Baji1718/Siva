@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-   body {
+    body {
       background-image: url('https://static.vecteezy.com/system/resources/previews/054/691/424/non_2x/colorful-ice-cream-in-a-bowl-with-mint-leaves-on-a-vibrant-background-for-a-refreshing-treat-free-photo.jpeg');
       background-size: cover;
       background-repeat: no-repeat;
@@ -23,20 +23,20 @@
       left: 0;
       top: 0;
       width: 240px;
-  background-color: rgba(30, 60, 120, 0.3); /* semi-transparent blue */
-
-      <!-- background-color: #00000000	; -->
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 3;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidebar img.logo {
       width: 240px;
       margin-top: -25px;
-
     }
 
     .sidebar a {
@@ -48,7 +48,6 @@
       align-items: center;
       font-size: 1rem;
       transition: background 0.3s;
-      
     }
 
     .sidebar a i {
@@ -59,7 +58,6 @@
       background-color: white;
       color:black;
     }
-
 
     #loader {
       position: fixed;
@@ -79,23 +77,34 @@
       height: 3rem;
     }
 
+    .main-content {
+      margin-left: 240px; /* Adjust for sidebar */
+      padding: 1rem;
+      padding-top: 80px; /* Account for navbar */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .table-container {
       max-height: 500px;
       overflow-y: auto;
       margin-bottom: 20px;
       display: flex;
-      justify-content: flex-end;
-      overflow-x: auto;
-      background-color: rgba(255, 255, 255, 0.95);
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 100%;
     }
 
     table {
       width: 100%;
+      max-width: 1200px; /* Set a max width for the table */
       border-collapse: collapse;
       margin-top: 20px;
+      text-align: center;
     }
 
     thead.table-dark {
@@ -103,6 +112,7 @@
       color: #fff;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background-color: rgba(0, 0, 0, 0.2); /* Transparent header */
     }
 
     th, td {
@@ -110,7 +120,7 @@
       font-size: 14px;
       text-align: center;
       vertical-align: middle;
-      color: #333;
+      color: #fff; /* White text for contrast */
     }
 
     tbody tr:hover {
@@ -137,27 +147,38 @@
 
     .modal-dialog {
       margin: 1rem auto;
+      background-color: transparent;
     }
 
     .modal-content {
-      height: 80vh;
+      background-color: #FFFFFF; /* Solid white background */
+      border-radius: 10px;
+      box-shadow: none;
+    }
+
+    .modal-header {
+      background-color: #FFFFFF; /* Solid white background */
+      border-bottom: none;
     }
 
     .modal-body {
-      height: calc(100% - 60px);
+      background-color: #FFFFFF; /* Solid white background */
+      color: black; /* Black text for contrast */
       overflow-y: auto;
     }
 
-    .modal-table-wrapper {
-      max-height: 400px;
-      overflow-y: auto;
+    .search-container {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
+      margin-bottom: 10px;
     }
 
-    .main-content {
-      margin-left: 240px;
-      padding: 2rem;
+    #searchInput {
+      width: 300px; /* Increased width of the search filter */
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
@@ -169,6 +190,10 @@
       .sidebar {
         display: none;
       }
+
+      .search-container {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -176,13 +201,13 @@
 
 <div class="sidebar">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
-    <a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Orders.html"><i class="fas fa-receipt"></i> Orders</a>
-    <a href="OrdersList.html"><i class="fas fa-list-ul"></i> Orders List</a>
-    <a href="Deliveries.html"><i class="fas fa-truck"></i> Deliveries</a>
-    <a href="DeliveriesList.html"><i class="fas fa-truck"></i> Deliveries List</a>
-    <a href="Inventory.html"><i class="fas fa-box"></i> Inventory</a>
-    <a href="APP.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+  <a href="Item.html"><i class="fa-solid fa-boxes-stacked"></i> Item Data</a>
+  <a href="Orders.html"><i class="fa-solid fa-cart-plus"></i> Create Order</a>
+  <a href="OrdersList.html"><i class="fa-solid fa-list-check"></i> Orders List</a>
+  <a href="Deliveries.html"><i class="fa-solid fa-truck-ramp-box"></i> Deliveries</a>
+  <a href="DeliveriesList.html"><i class="fa-solid fa-clipboard-list"></i> Deliveries List</a>
+  <a href="Inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+  <a href="APP.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
 </div>
 
 <div id="loader">
@@ -192,11 +217,10 @@
 </div>
 
 <div class="main-content">
-  <h2 class="mb-4 text-center">Orders List</h2>
-  <div class="row justify-content-center mb-3">
-    <div class="col-md-4">
-      <input type="text" id="searchInput" class="form-control" placeholder="Search orders...">
-    </div>
+
+  <!-- Search Filter -->
+  <div class="search-container">
+    <input type="text" id="searchInput" style="margin-left:890px" class="form-control" placeholder="Search orders...">
   </div>
 
   <div class="table-container">
@@ -280,7 +304,7 @@
 
       paginated.forEach(item => {
         const row = document.createElement("tr");
-        row.innerHTML = `
+        row.innerHTML = ` 
           <td><a href="#" class="material-link" data-order="${item.DeliveryOrderName}">${item.DeliveryOrderName}</a></td>
           <td>${item.TotalItems}</td>
           <td>${item.TotalQuantity}</td>
@@ -313,7 +337,8 @@
         pagination.appendChild(li);
       }
     }
- function fetchModalData(DeliveryOrderName) {
+
+    function fetchModalData(DeliveryOrderName) {
       modalTableBody.innerHTML = "";
       modalSearchInput.value = "";
 
@@ -327,12 +352,11 @@
           modalData = data;
           renderModalTable();
           materialModal.show();
-		        loader.style.display = "none"; // <-- Hide loader after modal is shown
+          loader.style.display = "none"; // <-- Hide loader after modal is shown
         })
         .catch(err => {
           modalTableBody.innerHTML = `<tr><td colspan="2" class="text-danger text-center">Failed to load materials</td></tr>`;
-		        loader.style.display = "none"; // <-- Hide loader after modal is shown
-
+          loader.style.display = "none"; // <-- Hide loader after modal is shown
           console.error(err);
         });
     }
