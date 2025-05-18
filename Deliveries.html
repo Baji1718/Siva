@@ -13,7 +13,7 @@
       background-repeat: no-repeat;
       background-position: center;
       height: 100vh;
-      color: #d9eeb5;
+      color: #f4f1f1;
       overflow-y: auto;
     }
 
@@ -23,32 +23,31 @@
       left: 0;
       top: 0;
       width: 240px;
-  background-color: rgba(30, 60, 120, 0.3); /* semi-transparent blue */
-
-      <!-- background-color: #00000000	; -->
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 3;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidebar img.logo {
       width: 240px;
       margin-top: -25px;
-
     }
 
     .sidebar a {
       width: 100%;
       padding: 15px 20px;
-      color: white;
+      color: #f4f1f1;
       text-decoration: none;
       display: flex;
       align-items: center;
       font-size: 1rem;
       transition: background 0.3s;
-      
     }
 
     .sidebar a i {
@@ -56,10 +55,9 @@
     }
 
     .sidebar a:hover {
-      background-color: white;
-      color:black;
+      background-color: #4e7c8c;
+      color: #ffffff;
     }
-
 
     h2 {
       text-align: center;
@@ -68,13 +66,16 @@
     }
 
     .container {
+      margin-left: 250px;
       padding-top: 30px;
     }
 
     #loader {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 9999;
       display: flex;
@@ -84,38 +85,39 @@
 
     .table-container {
       overflow-x: auto;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
     }
 
     table {
-      width: 80%;
+      width: 100%;
       border-collapse: separate;
       border-spacing: 0;
       border-radius: 12px;
       overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.1); /* Fully transparent table background */
     }
 
     thead.table-dark {
-      background: linear-gradient(45deg, #3c3b3f, #605c3c);
-      color: #fff;
+      background: rgba(33, 33, 33, 0.85); /* Semi-transparent dark header */
+      color: #ff9800; /* Amber color for text */
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     th, td {
       padding: 12px 14px;
       font-size: 13px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
       text-align: center;
       vertical-align: middle;
-      color: #333;
+      color: #ff5722; /* A vibrant deep orange color for text */
     }
 
     tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(255, 255, 255, 0.05); /* Slightly darker background on hover */
     }
 
     input[type="number"] {
@@ -125,6 +127,7 @@
       text-align: center;
       border: 1px solid #ccc;
       border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.3); /* Transparent background for inputs */
     }
 
     #orderName, #searchInput {
@@ -134,18 +137,28 @@
 
     .pagination-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       padding-top: 10px;
+      width: 100%;
+    }
+
+    .pagination {
+      margin-bottom: 0;
     }
 
     .btn-sm {
       font-size: 13px;
     }
 
+    #saveOrders {
+      margin-left: auto; /* Align the save button to the right */
+    }
+
     @media (max-width: 768px) {
-      body {
-        padding-left: 0;
+      .container {
+        margin-left: 0;
+        padding: 1rem;
       }
       .sidebar {
         display: none;
@@ -155,21 +168,17 @@
 </head>
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
-<a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Orders.html"><i class="fas fa-receipt"></i> Orders</a>
-    <a href="OrdersList.html"><i class="fas fa-list-ul"></i> Orders List</a>
-    <a href="Deliveries.html"><i class="fas fa-truck"></i> Deliveries</a>
-    <a href="DeliveriesList.html"><i class="fas fa-truck"></i> Deliveries List</a>
-    <a href="Inventory.html"><i class="fas fa-box"></i> Inventory</a>
-    <a href="APP.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-
+  <a href="Item.html"><i class="fa-solid fa-boxes-stacked"></i> Item Data</a>
+  <a href="Orders.html"><i class="fa-solid fa-cart-plus"></i> Create Order</a>
+  <a href="OrdersList.html"><i class="fa-solid fa-list-check"></i> Orders List</a>
+  <a href="Deliveries.html"><i class="fa-solid fa-truck-ramp-box"></i> Deliveries</a>
+  <a href="DeliveriesList.html"><i class="fa-solid fa-clipboard-list"></i> Deliveries List</a>
+  <a href="Inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+  <a href="APP.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
 </div>
 
-<!-- Loader -->
 <div id="loader">
   <div class="spinner-border text-light" role="status">
     <span class="visually-hidden">Loading...</span>
@@ -177,7 +186,6 @@
 </div>
 
 <div class="container">
-
   <div class="row justify-content-center mb-3">
     <div class="col-md-4">
       <input type="text" id="searchInput" class="form-control" placeholder="Search items...">
@@ -200,15 +208,16 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
 
-  <div class="pagination-container mt-2">
-    <nav class="d-flex">
-      <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
-    </nav>
-    <button id="saveOrders" class="btn btn-primary btn-sm">Save Selected Orders</button>
+    <div class="pagination-container mt-2">
+      <nav>
+        <ul class="pagination pagination-sm" id="pagination"></ul>
+      </nav>
+      <button id="saveOrders" class="btn btn-primary btn-sm">Save Selected Orders</button>
+    </div>
   </div>
 </div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const loader = document.getElementById("loader");
@@ -222,7 +231,6 @@
     let currentPage = 1;
     const rowsPerPage = 10;
 
-    // Fetch materials data from the API
     fetch("https://stocknest-w3r4.onrender.com/api/materials")
       .then(res => res.json())
       .then(data => {
@@ -237,7 +245,6 @@
         loader.style.display = "none";
       });
 
-    // Filter materials based on search input
     function getFilteredMaterials() {
       const term = searchInput.value.toLowerCase();
       return materials.filter(m =>
@@ -246,7 +253,6 @@
       );
     }
 
-    // Render the table with data and pagination
     function renderTable() {
       const filtered = getFilteredMaterials();
       const start = (currentPage - 1) * rowsPerPage;
@@ -279,7 +285,6 @@
       renderPagination(filtered.length);
     }
 
-    // Render pagination links
     function renderPagination(totalItems) {
       const totalPages = Math.ceil(totalItems / rowsPerPage);
       pagination.innerHTML = "";
@@ -311,7 +316,6 @@
       });
     });
 
-    // Save the selected orders by making an API call
     document.getElementById("saveOrders").addEventListener("click", function () {
       const DeliveryOrderName = orderNameInput.value.trim();
       if (!DeliveryOrderName) {
@@ -340,7 +344,8 @@
         return;
       }
 
-      // Send the selected orders to the API
+      loader.style.display = "flex";
+
       fetch("https://stocknest-w3r4.onrender.com/api/delivery-order", {
         method: "POST",
         headers: {
@@ -350,18 +355,20 @@
       })
       .then(response => response.json())
       .then(data => {
+        loader.style.display = "none";
+
         if (data.success) {
-          alert("Orders saved successfully!");
+          alert(`Order saved successfully: ${data.message || 'Order ID: ' + data.orderId}`);
         } else {
-          alert("Failed to save orders.");
+          alert(`${data.message || 'Unknown error'}`);
         }
       })
       .catch(error => {
         console.error("Error saving orders:", error);
+        loader.style.display = "none";
         alert("An error occurred while saving the orders.");
       })
       .finally(() => {
-        // Reset UI after saving
         document.querySelectorAll(".item-checkbox").forEach(cb => cb.checked = false);
         document.querySelectorAll(".quantity-input").forEach(input => {
           input.disabled = true;
@@ -372,7 +379,6 @@
     });
   });
 </script>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
