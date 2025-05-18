@@ -8,7 +8,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
   <style>
-   body {
+    body {
       background-image: url('https://static.vecteezy.com/system/resources/previews/054/691/424/non_2x/colorful-ice-cream-in-a-bowl-with-mint-leaves-on-a-vibrant-background-for-a-refreshing-treat-free-photo.jpeg');
       background-size: cover;
       background-repeat: no-repeat;
@@ -24,20 +24,20 @@
       left: 0;
       top: 0;
       width: 240px;
-  background-color: rgba(30, 60, 120, 0.3); /* semi-transparent blue */
-
-      <!-- background-color: #00000000	; -->
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 3;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidebar img.logo {
       width: 240px;
       margin-top: -25px;
-
     }
 
     .sidebar a {
@@ -49,7 +49,6 @@
       align-items: center;
       font-size: 1rem;
       transition: background 0.3s;
-      
     }
 
     .sidebar a i {
@@ -58,132 +57,106 @@
 
     .sidebar a:hover {
       background-color: white;
-      color:black;
+      color: black;
     }
 
+    .container-content {
+      margin-left: 260px; /* Adjusted for sidebar */
+      padding: 2rem;
+    }
 
-  h2 {
-    color: white;
-    text-shadow: 1px 1px 2px black;
-    text-align: center;
-  }
+    .table-wrapper {
+      background-color: rgba(255, 255, 255, 0); /* Fully transparent */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-  .pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: transparent;
+    }
 
-  .table-container {
-    max-height: 500px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: flex-end; /* Align table to the right */
-  }
+    thead.table-dark {
+      background: linear-gradient(45deg, #6c757d, #495057);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-  .table-container {
-    overflow-x: auto;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
+    th, td {
+      padding: 12px 20px;
+      font-size: 14px;
+      text-align: center;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.6); /* Translucent cell background */
+    }
 
-  table {
-    width: 100%; /* Full width for better responsiveness */
-    border-collapse: collapse; /* Collapse borders */
-    margin-top: 20px;
-  }
+    tbody tr:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+      cursor: pointer;
+    }
 
-  thead.table-dark {
-    background: linear-gradient(45deg, #6c757d, #495057); /* Updated color scheme */
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+    .pagination-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
-  th, td {
-    padding: 12px 20px; /* Increased padding for better spacing */
-    font-size: 14px;
-    text-align: center;
-    vertical-align: middle;
-    color: #333;
-  }
+    .search-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+    }
 
-  tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
+    .form-control {
+      width: 280px;
+      font-size: 14px;
+    }
 
-  tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 123, 255, 0.1); /* Light blue */
-  }
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  tbody tr:nth-of-type(even) {
-    background-color: rgba(0, 123, 255, 0.05); /* Darker blue */
-  }
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+    }
 
-  tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.2); /* Hover effect */
-    cursor: pointer;
-  }
+    /* Modal Styling */
+    .modal-content {
+      background-color: white !important;
+      color: #333;
+    }
 
-  /* Add a light border to the row */
-  tbody tr {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Lighter border */
-  }
-
-  .pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .spinner-border {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  #loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .search-wrapper {
-    display: flex;
-    justify-content: flex-end; /* Align search input to the right */
-    margin-bottom: 20px;
-  }
-
-  .form-control {
-    width: 200px; /* Decreased size of the search box */
-    font-size: 14px;
-  }
-</style>
-
+    .modal-body {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body>
 
 <!-- Sidebar -->
 <div class="sidebar">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
-<a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Orders.html"><i class="fas fa-receipt"></i> Orders</a>
-    <a href="OrdersList.html"><i class="fas fa-list-ul"></i> Orders List</a>
-    <a href="Deliveries.html"><i class="fas fa-truck"></i> Deliveries</a>
-    <a href="DeliveriesList.html"><i class="fas fa-truck"></i> Deliveries List</a>
-    <a href="Inventory.html"><i class="fas fa-box"></i> Inventory</a>
-    <a href="APP.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-
+  <a href="Item.html"><i class="fa-solid fa-boxes-stacked"></i> Item Data</a>
+  <a href="Orders.html"><i class="fa-solid fa-cart-plus"></i> Create Order</a>
+  <a href="OrdersList.html"><i class="fa-solid fa-list-check"></i> Orders List</a>
+  <a href="Deliveries.html"><i class="fa-solid fa-truck-ramp-box"></i> Deliveries</a>
+  <a href="DeliveriesList.html"><i class="fa-solid fa-clipboard-list"></i> Deliveries List</a>
+  <a href="Inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+  <a href="APP.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
 </div>
 
 <!-- Loader -->
@@ -194,33 +167,42 @@
 </div>
 
 <!-- Main Content -->
-<div class="container mt-5">
-  <h2 class="mb-4 text-center">Item List</h2>
+<div class="container-content">
 
-  <!-- Search Bar -->
   <div class="search-wrapper">
-    <input type="text" id="searchInput" class="form-control" placeholder="Search by Material Name">
+    <input type="text" id="searchInput" style="margin-right:40px" class="form-control" placeholder="Search by Material Name">
   </div>
 
-  <!-- Table -->
-  <div class="table-container">
+  <div class="table-wrapper">
     <table class="table" id="itemTable">
       <thead class="table-dark">
         <tr>
-          <th class="col-4">Material Name</th>
-          <th class="col-4">Description</th>
-          <th class="col-4">UOM</th>
+          <th>Material Name</th>
+          <th>Description</th>
+          <th>UOM</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Table content dynamically inserted -->
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 
-  <!-- Pagination -->
   <div class="pagination-wrapper">
     <ul class="pagination pagination-sm" id="pagination"></ul>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="itemModalLabel">Item Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal content goes here...</p>
+      </div>
+    </div>
   </div>
 </div>
 
