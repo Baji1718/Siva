@@ -17,20 +17,21 @@
       overflow-y: auto;
     }
 
-    .sidebar {
+   .sidebar {
       height: 100vh;
       position: fixed;
       left: 0;
       top: 0;
       width: 240px;
-  background-color: rgba(30, 60, 120, 0.3); /* semi-transparent blue */
-
-      <!-- background-color: #00000000	; -->
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 3;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .sidebar img.logo {
@@ -85,7 +86,7 @@
       display: flex;
       justify-content: flex-end;
       overflow-x: auto;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -175,13 +176,13 @@
 
 <div class="sidebar">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO698nw0oHGyftrLw0O4mSq-a-JFcdWsFvsw&s" class="logo" alt="Logo">
-    <a href="Item.html"><i class="fas fa-cogs"></i> Item Data</a>
-    <a href="Orders.html"><i class="fas fa-receipt"></i> Orders</a>
-    <a href="OrdersList.html"><i class="fas fa-list-ul"></i> Orders List</a>
-    <a href="Deliveries.html"><i class="fas fa-truck"></i> Deliveries</a>
-    <a href="DeliveriesList.html"><i class="fas fa-truck"></i> Deliveries List</a>
-    <a href="Inventory.html"><i class="fas fa-box"></i> Inventory</a>
-    <a href="APP.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+ <a href="Item.html"><i class="fa-solid fa-boxes-stacked"></i> Item Data</a>
+  <a href="Orders.html"><i class="fa-solid fa-cart-plus"></i> Create Order</a>
+  <a href="OrdersList.html"><i class="fa-solid fa-list-check"></i> Orders List</a>
+  <a href="Deliveries.html"><i class="fa-solid fa-truck-ramp-box"></i> Deliveries</a>
+  <a href="DeliveriesList.html"><i class="fa-solid fa-clipboard-list"></i> Deliveries List</a>
+  <a href="Inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+  <a href="APP.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
 </div>
 
 <div id="loader">
@@ -191,7 +192,6 @@
 </div>
 
 <div class="main-content">
-  <h2 class="mb-4 text-center">Orders List</h2>
   <div class="row justify-content-center mb-3">
     <div class="col-md-4">
       <input type="text" id="searchInput" class="form-control" placeholder="Search orders...">
