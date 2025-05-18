@@ -359,7 +359,11 @@
         return res.json();
       })
       .then(data => {
-        alert("Orders saved successfully!");
+       if (data.success) {
+          alert(`Order saved successfully: ${data.message || 'Order ID: ' + data.orderId}`);
+        } else {
+          alert(`${data.message || 'Unknown error'}`);
+        }
         // Reset form
         document.querySelectorAll(".item-checkbox").forEach(cb => cb.checked = false);
         document.querySelectorAll(".quantity-input").forEach(input => {
